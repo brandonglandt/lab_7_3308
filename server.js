@@ -209,11 +209,11 @@ app.get('/team_stats', function(req, res) {
 	})
 	.catch(error => {
 		request.flash('error', err);
-		response.render('pages/team_stats', {
-			title: 'Football Games',
-			data: '',
-			total_wins: 'Error',
-			total_losses: 'Error'
+		res.render('pages/team_stats',{
+		my_title: "Football Games",
+		data: '',
+		total_wins: 'Error',
+		total_losses: 'Error',
 		})
 	});
 });
@@ -223,25 +223,24 @@ app.get('/team_stats', function(req, res) {
 app.get('/player_info', function(req, res) {
 	var query = 'select id, name from football_players;';
 	db.any(query)
-        .then(function (rows) {
+        .then(info => {
             res.render('pages/player_info',{
 				my_title: "Player Info",
-				data: rows,
-				id: ''
-			})
+				data: info
+			});
 
         })
-        .catch(function (err) {
+        .catch(err => {
             // display error message in case an error
             request.flash('error', err);
-            response.render('pages/player_info', {
-                title: 'Player Info',
-                data: '',
-                id: ''
-            })
-        })
+		res.render('pages/player_info',{
+		my_title: "Player Info",
+		data: '',
+		})
+	});
 });
 
+/*
 app.get('/home/select_player', function(req, res) {
 	var player_id = req.query.player_id;
 	var player_id =  'select * from player_id;';
@@ -268,6 +267,6 @@ app.get('/home/select_player', function(req, res) {
     });
 	
 });
-
+*/
 app.listen(3000);
 console.log('3000 is the magic port');
